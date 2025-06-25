@@ -8,18 +8,23 @@ jobs:
       - name: Greeting!
         run: echo hello world
 
-  test-python-3-12: 
-    name: Check Python 3.12 on ubuntu
+  test-python-versions: 
+    name: Check Python ${{ matrix.python-version }} on ubuntu
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@v3 #external action
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.12' # if it was '3.10' and wrote 3.10 without ' here, would check python 3.1
+          # python-version: '3.12' # if it was '3.10' and wrote 3.10 without ' here, would check python 3.1
+          python-version
 
       - name: Install package
         run: python -m pip install -e .[test] # test in bracket bc it is option in toml file
 
       - name: Test package
         run: python -m pytest
+
